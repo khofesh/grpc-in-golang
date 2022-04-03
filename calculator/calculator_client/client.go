@@ -52,7 +52,7 @@ func doUnary(c calculatorpb.SumServiceClient) {
 
 func doServerStreaming(c calculatorpb.SumServiceClient) {
 	req := &calculatorpb.PrimeNumberDecompositionRequest{
-		Number: 12,
+		Number: 122345,
 	}
 
 	stream, err := c.PrimeNumberDecomposition(context.Background(), req)

@@ -48,7 +48,7 @@ func (*server) PrimeNumberDecomposition(req *calculatorpb.PrimeNumberDecompositi
 		} else {
 			divisor++
 
-			fmt.Printf("Divisor has increased to %v", divisor)
+			fmt.Printf("Divisor has increased to %v \n", divisor)
 		}
 	}
 
