@@ -345,3 +345,9 @@ blog::content (TYPE_STRING) =>
 
 blog.BlogService@127.0.0.1:50051>
 ```
+
+## references
+
+https://kb.objectrocket.com/mongo-db/how-to-find-a-mongodb-document-by-its-bson-objectid-using-golang-452
+
+https://www.mongodb.com/languages/golang
