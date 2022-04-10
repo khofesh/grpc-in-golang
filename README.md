@@ -172,3 +172,176 @@ calculator.CalculatorService@127.0.0.1:50051>
 
 
 ```
+
+## evans blog
+
+```shell
+[fahmad@ryzen blog]$ evans -p 50051 -r
+
+  ______
+ |  ____|
+ | |__    __   __   __ _   _ __    ___
+ |  __|   \ \ / /  / _. | | '_ \  / __|
+ | |____   \ V /  | (_| | | | | | \__ \
+ |______|   \_/    \__,_| |_| |_| |___/
+
+ more expressive universal gRPC client
+
+
+blog.BlogService@127.0.0.1:50051> show package
++-------------------------+
+|         PACKAGE         |
++-------------------------+
+| blog                    |
+| grpc.reflection.v1alpha |
++-------------------------+
+
+blog.BlogService@127.0.0.1:50051> show service
++-------------+------------+-------------------+--------------------+
+|   SERVICE   |    RPC     |   REQUEST TYPE    |   RESPONSE TYPE    |
++-------------+------------+-------------------+--------------------+
+| BlogService | CreateBlog | CreateBlogRequest | CreateBlogResponse |
+| BlogService | ReadBlog   | ReadBlogRequest   | ReadBlogResponse   |
+| BlogService | UpdateBlog | UpdateBlogRequest | UpdateBlogResponse |
+| BlogService | DeleteBlog | DeleteBlogRequest | DeleteBlogResponse |
+| BlogService | ListBlog   | ListBlogRequest   | ListBlogResponse   |
++-------------+------------+-------------------+--------------------+
+
+blog.BlogService@127.0.0.1:50051> service BlogService
+
+blog.BlogService@127.0.0.1:50051> show service
++-------------+------------+-------------------+--------------------+
+|   SERVICE   |    RPC     |   REQUEST TYPE    |   RESPONSE TYPE    |
++-------------+------------+-------------------+--------------------+
+| BlogService | CreateBlog | CreateBlogRequest | CreateBlogResponse |
+| BlogService | ReadBlog   | ReadBlogRequest   | ReadBlogResponse   |
+| BlogService | UpdateBlog | UpdateBlogRequest | UpdateBlogResponse |
+| BlogService | DeleteBlog | DeleteBlogRequest | DeleteBlogResponse |
+| BlogService | ListBlog   | ListBlogRequest   | ListBlogResponse   |
++-------------+------------+-------------------+--------------------+
+
+blog.BlogService@127.0.0.1:50051> call CreateBlog
+blog::id (TYPE_STRING) =>
+blog::author_id (TYPE_STRING) => frog
+blog::title (TYPE_STRING) => blog about grpc
+blog::content (TYPE_STRING) => created using evans cli
+{
+  "blog": {
+    "authorId": "frog",
+    "content": "created using evans cli",
+    "id": "6252c793667c98951aa08ca0",
+    "title": "blog about grpc"
+  }
+}
+
+blog.BlogService@127.0.0.1:50051> call ListBlog
+{
+  "blog": {
+    "authorId": "Fahmi",
+    "content": "This the content",
+    "id": "6252acc6214746b1c240a684",
+    "title": "This the content"
+  }
+}
+{
+  "blog": {
+    "authorId": "Fahmi",
+    "content": "This the content",
+    "id": "6252b451bc97cc848e0d8b8c",
+    "title": "This the content"
+  }
+}
+{
+  "blog": {
+    "authorId": "Fahmi",
+    "content": "This the content",
+    "id": "6252b47ebc97cc848e0d8b8d",
+    "title": "This the content"
+  }
+}
+{
+  "blog": {
+    "authorId": "Changed author",
+    "content": "This the content, lksdflksoiwer lksjdflskdjf",
+    "id": "6252c078bedd458d36c81390",
+    "title": "My Second Blog"
+  }
+}
+{
+  "blog": {
+    "authorId": "frog",
+    "content": "created using evans cli",
+    "id": "6252c793667c98951aa08ca0",
+    "title": "created using evans cli"
+  }
+}
+
+blog.BlogService@127.0.0.1:50051> call DeleteBlog
+blog_id (TYPE_STRING) => 6252acc6214746b1c240a684
+{
+  "blogId": "6252acc6214746b1c240a684"
+}
+
+blog.BlogService@127.0.0.1:50051> call DeleteBlog
+blog_id (TYPE_STRING) => 6252acc6214746b1c240a684
+command call: rpc error: code = NotFound desc = Cannot find blog in MongoDB: <nil>
+
+blog.BlogService@127.0.0.1:50051> call ListBlog
+{
+  "blog": {
+    "authorId": "Fahmi",
+    "content": "This the content",
+    "id": "6252b451bc97cc848e0d8b8c",
+    "title": "This the content"
+  }
+}
+{
+  "blog": {
+    "authorId": "Fahmi",
+    "content": "This the content",
+    "id": "6252b47ebc97cc848e0d8b8d",
+    "title": "This the content"
+  }
+}
+{
+  "blog": {
+    "authorId": "Changed author",
+    "content": "This the content, lksdflksoiwer lksjdflskdjf",
+    "id": "6252c078bedd458d36c81390",
+    "title": "My Second Blog"
+  }
+}
+{
+  "blog": {
+    "authorId": "frog",
+    "content": "created using evans cli",
+    "id": "6252c793667c98951aa08ca0",
+    "title": "created using evans cli"
+  }
+}
+
+blog.BlogService@127.0.0.1:50051> call ReadBlog
+blog_id (TYPE_STRING) => 6252c793667c98951aa08ca0
+{
+  "blog": {
+    "authorId": "frog",
+    "content": "created using evans cli",
+    "id": "6252c793667c98951aa08ca0",
+    "title": "created using evans cli"
+  }
+}
+
+blog.BlogService@127.0.0.1:50051> call UpdateBlog
+blog::id (TYPE_STRING) => 6252c793667c98951aa08ca0
+blog::author_id (TYPE_STRING) => frog 2
+blog::title (TYPE_STRING) =>
+blog::content (TYPE_STRING) =>
+{
+  "blog": {
+    "authorId": "frog 2",
+    "id": "6252c793667c98951aa08ca0"
+  }
+}
+
+blog.BlogService@127.0.0.1:50051>
+```
