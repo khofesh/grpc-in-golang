@@ -29,7 +29,8 @@ func main() {
 	// doUnary(c)
 
 	// doServerStreaming(c)
-	doClientStreaming(c)
+	// doClientStreaming(c)
+	doBiDiStreaming(c)
 }
 
 func doUnary(c calculatorpb.CalculatorServiceClient) {
@@ -96,4 +97,48 @@ func doClientStreaming(c calculatorpb.CalculatorServiceClient) {
 	}
 
 	fmt.Printf("The average is: %v", res.GetAverage())
+}
+
+func doBiDiStreaming(c calculatorpb.CalculatorServiceClient) {
+	fmt.Println("starting to do a FindMaximum BiDi streaming RPC")
+
+	stream, err := c.FindMaximum(context.Background())
+	if err != nil {
+		log.Fatalf("Error while opening stream and calling FindMaximum: %v", err)
+	}
+
+	waitc := make(chan struct{})
+
+	// send go routine
+	go func() {
+		numbers := []int32{4, 8, 10, 20, 30, 50, 34}
+		for _, number := range numbers {
+			fmt.Printf("Sending number: %v\n", number)
+			stream.Send(&calculatorpb.FindMaximumRequest{
+				Number: number,
+			})
+			time.Sleep(1000 * time.Millisecond)
+		}
+		stream.CloseSend()
+	}()
+
+	// receive go routine
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalf("problem while reading server stream: %v", err)
+				break
+			}
+			maximum := res.GetMaximum()
+			fmt.Printf("Received a new maximum of : %v\n", maximum)
+		}
+		close(waitc)
+	}()
+
+	<-waitc
+
 }
